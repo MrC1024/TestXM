@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:命名空间,做sql隔离,每一个Sql映射文件都属于一个dao接口-->
+<mapper namespace="com.example.demo.mapper.User_signMapper">
+
+    <select id="selsf"  resultType="Integer">
+        <![CDATA[  SELECT COUNT(1) FROM  `user_sign` WHERE `user_id`=#{0}]]>
+    </select>
+    <select id="selyf"  resultType="Integer">
+        <![CDATA[  SELECT COUNT(1) FROM  `user_sign` WHERE  DATE_FORMAT(`create_time`,"%m")<#{0}]]>
+    </select>
+    <insert id="addus" parameterType="com.example.demo.pojo.User_sign">
+        insert into user_sign value(null,#{count},#{create_time},#{last_modify_time},#{sign_count},#{user_id})
+    </insert>
+    <select id="sel"  resultType="com.example.demo.pojo.User_sign">
+        select * from user_sign where user_id=#{0}
+    </select>
+</mapper>

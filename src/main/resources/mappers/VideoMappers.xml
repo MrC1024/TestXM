@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.VideoMapper">
+    <resultMap id="VideoMap" type="com.example.demo.pojo.Video" >
+        <id column="vid" property="vid" jdbcType="INTEGER" />
+        <result column="vName" property="vName" jdbcType="VARCHAR" />
+        <result column="vTypeId" property="vTypeId" jdbcType="INTEGER" />
+        <result column="path" property="path" jdbcType="VARCHAR" />
+        <result column="lengthoftime" property="lengthoftime" jdbcType="VARCHAR" />
+        <result column="authorId" property="authorId" jdbcType="INTEGER" />
+        <association property="vType" javaType="com.example.demo.pojo.VType">
+            <result column="vTypeName" property="vTypeName"></result>
+        </association>
+    </resultMap>
+   <!-- <select id="getAll" resultMap="VideoMap" >
+        SELECT i.*,t.vTypeName FROM video i,vtype t WHERE  i.vTypeId=t.vTypeId
+    </select>-->
+    <select id="getIndexById" resultMap="VideoMap" >
+        SELECT i.*,t.vTypeName FROM video i,vtype t
+        <trim prefix="where" suffix="limit #{pageIndex},#{pageCount}" prefixOverrides="and">
+            <if test="vTypeId != 0">
+                and i.vTypeId=#{vTypeId}
+            </if>
+            <if test="vName != null ">
+                and i.vName LIKE CONCAT ('%',#{vName},'%')
+            </if>
+            <if test="1==1">
+                and i.vTypeId=t.vTypeId
+            </if>
+        </trim>
+    </select>
+    <select id="getCount" resultType="Integer" >
+        SELECT COUNT(1) FROM video
+    </select>
+    <select id="getAllByPage" resultMap="VideoMap">
+        SELECT i.*,t.vTypeName FROM video i,vtype t WHERE  i.vTypeId=t.vTypeId limit #{pageIndex},#{pageCount}
+</select>
+    <select id="selectAuthor" resultType="com.example.demo.pojo.author">
+      SELECT * FROM author WHERE authorId=#{authorId}
+    </select>
+    <select id="getCountT" resultType="Integer">
+        SELECT COUNT(1) FROM video where vTypeId=#{vTypeId}
+    </select>
+    <select id="getPL" resultType="com.example.demo.pojo.VPingLun">
+       SELECT P.* FROM pinglun p,video v WHERE p.vid = v.vid AND p.`vid`=#{vid} ORDER BY TIME DESC
+    </select>
+    <insert id="addPL" parameterType="com.example.demo.pojo.VPingLun">
+        INSERT INTO pinglun VALUES(NULL,#{name },#{neirong},#{user_id},#{vid},#{time})
+    </insert>
+    <insert id="addHF" parameterType="com.example.demo.pojo.huiFu">
+        INSERT INTO huifu VALUES(NULL,#{name },#{hfText},#{user_id},#{pinglunId})
+    </insert>
+   <select id="getHF" resultType="com.example.demo.pojo.huiFu">
+        SELECT * FROM huifu h,pinglun p WHERE h.`pinglunId` = p.`id` AND  h.`pinglunId`=#{pinglunId}
+    </select>
+   <!-- <select id="getHF" resultType="com.example.demo.pojo.huiFu">
+        SELECT * FROM huifu h,pinglun p WHERE h.`pinglunId` = p.`id`
+    </select>-->
+    <delete id="del">
+        delete from huifu where hfId=#{hfId}
+    </delete>
+</mapper>
+
+

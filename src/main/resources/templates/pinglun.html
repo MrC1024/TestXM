@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Amaze UI Admin index Examples</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="apple-touch-icon-precomposed" href="/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="/css/amazeui.min.css" />
+    <link rel="stylesheet" href="/css/amazeui.datatables.min.css" />
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/video-js.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/video.min.js"></script>
+    <script src="/js/jquery-1.12.4.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="http://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css">
+
+    <script>
+        $(function () {
+            showPL();
+        });
+        function goBack() {
+            this.history.back(-1);
+        }
+        function shouqiHF(obj) {
+            $(obj).parent().next().attr("style","padding: 10px 10px;color: #000000;font-weight: normal;display:none;")
+        }
+        function showHF(obj){
+            $(obj).parent().next().attr("style","padding: 10px 10px;color: #000000;font-weight: normal;display:block;")
+            var pinglunId = $(obj).parent().parent().children().eq(0).val();
+            var name = $(obj).parent().parent().children().eq(1).children().first().text();
+            var myDate = new Date();
+            myDate.getYear();        //获取当前年份(2位)
+            myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+            myDate.getDate();        //获取当前日(1-31)
+            myDate.getDay();         //获取当前星期X(0-6,0代表星期天)
+            myDate.getTime();        //获取当前时间(从1970.1.1开始的毫秒数)
+            myDate.getHours();       //获取当前小时数(0-23)
+            myDate.getMinutes();     //获取当前分钟数(0-59)
+            myDate.getSeconds();     //获取当前秒数(0-59)
+            myDate.getMilliseconds();    //获取当前毫秒数(0-999)
+            myDate.toLocaleDateString();     //获取当前日期
+            var mytime=myDate.toLocaleTimeString();     //获取当前时间
+            $.ajax({
+                "url":"/video/getHF",
+                "data":"pinglunId="+pinglunId,
+                "type":"post",
+                "dataType":"JSON",
+                "success":function(result){
+                    $("#xiala").html("");
+                   /* $("#xiala").style.display="block";*/
+                        $(result).each(function(){
+                            $("#xiala").append(""+
+                                "<div>" +
+                                "<span>您&nbsp;&nbsp;回复&nbsp;&nbsp;"+name+":&nbsp;&nbsp;&nbsp;"+this.hfText+"&nbsp;&nbsp;&nbsp;<a href='javascript:void(0)' onclick='return del("+this.hfId+")'>删除回复</a></span>"+
+                                "</div>"+
+                                "");
+                        });
+
+                    }
+            });
+        }
+
+        function showPL(){
+            var vid = parseInt($("#vid").text());
+            var myDate = new Date();
+            myDate.getYear();        //获取当前年份(2位)
+            myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+            myDate.getDate();        //获取当前日(1-31)
+            myDate.getDay();         //获取当前星期X(0-6,0代表星期天)
+            myDate.getTime();        //获取当前时间(从1970.1.1开始的毫秒数)
+            myDate.getHours();       //获取当前小时数(0-23)
+            myDate.getMinutes();     //获取当前分钟数(0-59)
+            myDate.getSeconds();     //获取当前秒数(0-59)
+            myDate.getMilliseconds();    //获取当前毫秒数(0-999)
+            myDate.toLocaleDateString();     //获取当前日期
+            var mytime=myDate.toLocaleTimeString();     //获取当前时间
+            var Otime = myDate.toLocaleString( );
+            $.ajax({
+                "url":"/video/getPingLun",
+                "data":"vid="+vid,
+                "type":"post",
+                "dataType":"JSON",
+                "success":function(result){
+                    $("#plq").html("");
+                    if (result.length==0){
+                        $("#plq").append(""+
+                            "<div id='pinglunT' style='padding:15px  0px;border:1px dashed green'>"+
+                            "<div style='padding: 0px 10px'>该视频暂无评论!</div>"+
+                            "</div>"+
+                            "");
+                    }else {
+                        $(result).each(function(){
+                            $("#plq").append(""+
+                                "<div id='pinglunT' style='padding:15px  0px;border:1px dashed green;background-color: #e9ecf3;border-radius: 10px'>"+
+                                "<input type='text' style='display:none;' id='pinglunId' value='"+this.id+"'>"+
+                                "<div style='padding: 10px 10px;color: #000000;font-weight: bold'>用户：<b style='font-weight: normal' id='plName'>"+this.name+"</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评论时间：<span style='font-weight: normal'>"+this.time+"</span></div>"+
+                                "<div style='padding: 10px 10px;color: #000000;font-weight: bold'>评论内容：<span style='font-weight: normal'>"+this.neirong+"</span>&nbsp;&nbsp;&nbsp;<a src='#' style='text-decoration: none' onclick='xshf(this)'>回复主楼</a></div>"+
+                                "<div style='padding: 0px 10px;color: #000000;font-weight: bold;display: none' id='huifu'><input placeholder='回复:' id='hfText' type='text' style='width: 95%'><button style='font-weight: normal' onclick='ychf(this)'>发表</button></div>"+
+                                "<div style='padding: 10px 10px;color: #000000;font-weight: bold'><a src='#' style='text-decoration: none' onclick='showHF(this)'>查看回复↓↓↓</a>&nbsp;&nbsp;&nbsp;<a src='#' style='text-decoration: none' onclick='shouqiHF(this)'>收起回复↑↑↑</a></div>"+
+                                "<div style='padding: 10px 10px;color: #000000;font-weight: normal;display: block' id='xiala'></div>"+
+                                "</div>"+
+                                "");
+                        });
+
+                    }
+
+                },
+            });
+        }
+
+        function  addPL() {
+            var vid = parseInt($("#vid").text());
+            var neirong =$("#content").val();
+            var myDate = new Date();
+            myDate.getYear();        //获取当前年份(2位)
+            myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+            myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+            myDate.getDate();        //获取当前日(1-31)
+            myDate.getDay();         //获取当前星期X(0-6,0代表星期天)
+            myDate.getTime();        //获取当前时间(从1970.1.1开始的毫秒数)
+            myDate.getHours();       //获取当前小时数(0-23)
+            myDate.getMinutes();     //获取当前分钟数(0-59)
+            myDate.getSeconds();     //获取当前秒数(0-59)
+            myDate.getMilliseconds();    //获取当前毫秒数(0-999)
+            myDate.toLocaleDateString();     //获取当前日期
+            var mytime=myDate.toLocaleTimeString();     //获取当前时间
+            var time = myDate.toLocaleString( );
+            if(neirong==""){
+                alert("评论内容不能为空！")
+            }else{
+                $.ajax({
+                    "url": "/video/addPL",
+                    "data": "vid="+vid+"&neirong="+neirong+"&time="+time,
+                    "type": "post",
+                    "dataType": "JSON",
+                    "success":function(result){
+                        if (result>0){
+                            alert("评论成功！");
+                            showPL();
+                        }else {
+                            alert("评论失败！");
+                        }
+                        showHF(obj);
+                    }
+                });
+            }
+         $("#content").val("");
+        }
+        function ychf(obj) {
+            $(obj).parent().attr("style","padding: 0px 10px;color: #000000;font-weight: bold;display: none;");
+            var hfText = $("#hfText").val();
+            var user_id = $("#userId").val();
+            var pinglunId = $("#pinglunId").val();
+            if(hfText==""){
+                alert("回复内容不能为空!");
+            }else {
+                $.ajax({
+                    "url": "/video/addHF",
+                    "data": "hfText="+hfText+"&user_id="+user_id+"&pinglunId="+pinglunId,
+                    "type": "post",
+                    "dataType": "JSON",
+                    "success":function(result){
+                        if (result>0){
+                            alert("回复成功！");
+                            showHF(obj);
+                        }else {
+                            alert("回复失败！");
+                        }
+                    }
+                });
+            }
+
+
+        }
+        function del(hfId){
+            var flag=confirm("确定要删除嘛？");
+            if(flag){
+                $.ajax({
+                    "url":"/video/del/"+hfId,
+                    "dataType":"json",
+                    "type":"post",
+                    "success":function(result){
+                        if(result>0){
+                            alert("删除成功");
+                            $("#xiala").attr("style","padding: 10px 10px;color: #000000;font-weight: normal;display:none;")
+                        }else{
+                            alert("删除失败");
+                        }
+                    }
+                });
+            }
+        }
+        function xshf(obj) {
+            $(obj).parent().next().attr("style","padding: 0px 10px;color: #000000;font-weight: bold;display: block;");
+        }
+        function exit(){
+            var flag=confirm("确定要退出嘛？");
+            if(flag){
+                location.href="/../tiao/login.html";
+            }
+        }
+    </script>
+    <style>
+        #pinglun{
+            width: 100%;
+            height: 200px;
+            margin: auto;
+            background-color: #FFFFFF;
+            border: 1px;
+        }
+        #content{
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+    </style>
+
+</head>
+
+<body data-type="widgets">
+<script src="/js/theme.js"></script>
+<div class="am-g tpl-g">
+    <!-- 头部 1-->
+    <header>
+        <!-- logo -->
+        <div class="am-fl tpl-header-logo">
+            <a href="javascript:;"><img src="/img/logo.png" alt=""></a>
+        </div>
+        <!-- 右侧内容 -->
+        <div class="tpl-header-fluid">
+            <!-- 侧边切换 -->
+            <div class="am-fl tpl-header-switch-button am-icon-list">
+                    <span>
+
+                </span>
+            </div>
+            <!-- 搜索 -->
+          <!--  <div class="am-fl tpl-header-search">
+                <form class="tpl-header-search-form" action="javascript:;">
+                    <button class="tpl-header-search-btn am-icon-search"></button>
+                    <input class="tpl-header-search-box" type="text" placeholder="搜索内容...">
+                </form>
+            </div>-->
+            <!-- 其它功能-->
+            <div class="am-fr tpl-header-navbar">
+                <ul>
+                    <!-- 欢迎语 -->
+                    <li class="am-text-sm tpl-header-navbar-welcome">
+                        <a href="javascript:;">欢迎你, <b id="xixi" th:text="${application.users.account}"></b>  </a>
+                    </li>
+
+                    <!-- 新邮件 -->
+                    <li class="am-dropdown tpl-dropdown" data-am-dropdown>
+                        <a href="javascript:;" class="am-dropdown-toggle tpl-dropdown-toggle" data-am-dropdown-toggle>
+                            <a href="/tiao/demo.html" class="am-icon-envelope" style="text-decoration: none">签到</a>
+                        </a>
+                    </li>
+
+                    <!-- 退出 -->
+                    <li class="am-text-sm">
+                        <a href="#" onclick="exit()">
+                            <span class="am-icon-sign-out"></span>退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </header>
+    <!-- 风格切换 -->
+    <div class="tpl-skiner">
+        <div class="tpl-skiner-toggle am-icon-cog">
+        </div>
+        <div class="tpl-skiner-content">
+            <div class="tpl-skiner-content-title">
+                选择主题
+            </div>
+            <div class="tpl-skiner-content-bar">
+                <span class="skiner-color skiner-white" data-color="theme-white"></span>
+                <span class="skiner-color skiner-black" data-color="theme-black"></span>
+            </div>
+        </div>
+    </div>
+    <!-- 侧边导航栏 -->
+    <div class="left-sidebar">
+        <!-- 用户信息 -->
+        <div class="tpl-sidebar-user-panel">
+            <div class="tpl-user-panel-slide-toggleable">
+                <div class="tpl-user-panel-profile-picture">
+                    <img src="/img/user04.png" alt="">
+                </div>
+                <span class="user-panel-logged-in-text">
+
+              <input type="text" style="display:none;" id="userId" th:value="${application.users.user_id}">
+          </span>
+                <ul class="sidebar-nav" >
+                    <li class="sidebar-nav-link" style="margin-left: -20px">
+                        <a href="javascript:;" class="sidebar-nav-sub-title">
+                            <i class="am-icon-table sidebar-nav-link-logo" style="margin-right: -3px"></i>个人中心
+                            <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                        </a>
+                        <ul class="sidebar-nav sidebar-nav-sub">
+                            <li class="sidebar-nav-link">
+                                <a href="form.html">
+                                    <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 查看信息
+                                </a>
+                            </li>
+
+                            <li class="sidebar-nav-link">
+                                <a href="formT.html">
+                                    <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 修改密码
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- 菜单 -->
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-heading">Components <span class="sidebar-nav-heading-info"> 附加组件</span></li>
+            <li class="sidebar-nav-link">
+                <a href="/tiao/index.html">
+                    <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
+                </a>
+            </li>
+            <li class="sidebar-nav-link">
+                <a href="/tiao/table-list.html">
+                    <i class="am-icon-table sidebar-nav-link-logo"></i> 试卷
+                </a>
+            </li>
+            <li class="sidebar-nav-link">
+                <a href="/tiao/table-list-video.html">
+                    <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 视频
+                </a>
+            </li>
+            <li class="sidebar-nav-link">
+                <a href="/tiao/test.html">
+                    <i class="am-icon-table sidebar-nav-link-logo"></i> 考试
+                </a>
+            </li>
+         <!--   <li class="sidebar-nav-link">
+                <a href="/tiao/chart.html">
+                    <i class="am-icon-bar-chart sidebar-nav-link-logo"></i> 图表
+
+                </a>
+            </li>-->
+
+           <!-- <li class="sidebar-nav-heading">Page<span class="sidebar-nav-heading-info"> 常用页面</span></li>-->
+
+            </li>
+
+        </ul>
+    </div>
+
+
+
+    <!-- 内容区域 -->
+    <div class="tpl-content-wrapper">
+        <div class="row-content am-cf">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <button onclick="goBack()" style="color: #000000;background-color: #4df21c;padding-bottom:7px;">返回</button>
+                        </div>
+                        <div class="commentbox" id="pinglun">
+                            <textarea placeholder="来说几句吧......" style="width: 100%;height: 100%" id="content"></textarea>
+                            <div class="btn btn-info pull-right" id="comment" onclick="addPL()">评论</div>
+                        </div>
+                        <div>
+                            <div style="padding: 10px 1px;color: #000000;font-size: 20px;margin-top: -0.2%" >评论区:</div>
+                            <div style="padding: 10px 10px;display: none" id="vid" th:text="${vPingLun.vid}"></div>
+                        </div>
+                    </div>
+                    <div class="widget am-cf" id="plq" style="margin-top: -25px">
+                      <!--  <div id="pinglunT" style="padding:15px  0px;border:1px solid green">
+                            <div style="padding: 10px 10px">用户：车盼盼</div>
+                            <div style="padding: 10px 10px">评论内容：胡啦啦啦啦啦啦啦啦啦啦</div>
+                            <div style="padding: 0px 10px"><input placeholder="回复：" type="text" style="width: 100%"></div>
+                        </div>-->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="http://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="/js/amazeui.datatables.min.js"></script>
+<script src="/js/dataTables.responsive.min.js"></script>
+<script src="/js/app.js"></script>
+
+
+</body>
+
+</html>

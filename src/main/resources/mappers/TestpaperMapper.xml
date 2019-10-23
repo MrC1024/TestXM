@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:命名空间,做sql隔离,每一个Sql映射文件都属于一个dao接口-->
+<mapper namespace="com.example.demo.mapper.TestpaperMapper">
+
+    <resultMap type="com.example.demo.pojo.Answer" id="dotest">
+        <id property="a_id" column="a_id"/>
+        <result property="a_name" column="a_name"/>
+        <result property="testpaped_id" column="testpaped_id"/>
+        <result property="key" column="key"/>
+        <result property="resolv" column="resolv"/>
+        <result property="a_option_num" column="a_option_num"/>
+        <collection property="options" ofType="com.example.demo.pojo.Options">
+            <id property="o_id" column="o_id"/>
+            <result property="o_name" column="o_name"/>
+            <result property="o_countent" column="o_countent"/>
+            <result property="answer_id" column="answer_id"/>
+        </collection>
+
+    </resultMap>
+
+    <!--做题-->
+    <select id="doTest" resultMap="dotest">
+        SELECT *,COUNT(*) AS a_option_num FROM `answer` a INNER JOIN `options` o ON o.`answer_id`=a.`a_id` WHERE
+        a.`testpaper_id`=#{testpaper_id}
+        GROUP BY a.`a_id` LIMIT 0,20
+    </select>
+
+    <!--查询选项-->
+    <select id="doOptions" resultType="com.example.demo.pojo.Options">
+        SELECT `o_id`,`o_name`,`o_countent`,`answer_id` FROM `options` WHERE `answer_id`=#{answer_id}
+    </select>
+
+    <!--查询分类-->
+    <select id="getStep" resultType="com.example.demo.pojo.TestpaperStep">
+        SELECT * FROM `testpaper_step`
+    </select>
+
+
+    <!--做题-->
+    <select id="findT" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `answer` WHERE `a_id`=#{a_id} AND `key`=#{key};
+    </select>
+
+    <insert id="addTest" parameterType="com.example.demo.pojo.TestPaper">
+        INSERT INTO testpaper VALUES(NULL,#{t_name},#{testpaperstep_step_id},#{t_grade},#{t_correctness},#{user_id})
+    </insert>
+
+    <select id="getTest" resultType="com.example.demo.pojo.TestpaperStep">
+        SELECT * FROM testpaper_step WHERE testpaper_step_id=#{testpaper_step_id}
+    </select>
+</mapper>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Amaze UI Admin index Examples</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <script src="http://cdn.bootcss.com/echarts/3.3.2/echarts.min.js"></script>
+    <link rel="stylesheet" href="/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/css/amazeui.datatables.min.css"/>
+    <link rel="stylesheet" href="/css/app.css">
+    <link href="/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/iconfont.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/test.css" rel="stylesheet" type="text/css"/>
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css">
+    <style>
+        .changeColor {
+            background-color: #0a628f;
+        }
+    </style>
+
+</head>
+
+<body data-type="widgets">
+<script src="/js/theme.js"></script>
+<script>
+    function qdym() {
+        location.href = "demo.html"
+    }
+
+    function exit() {
+        var flag = confirm("确定要退出嘛？");
+        if (flag) {
+            location.href = "login.html";
+        }
+    }
+</script>
+<div class="am-g tpl-g">
+    <!-- 头部 -->
+    <header>
+        <!-- logo -->
+        <div class="am-fl tpl-header-logo">
+            <a href="javascript:;"><img src="/img/logo.png" alt=""></a>
+        </div>
+        <!-- 右侧内容 -->
+        <div class="tpl-header-fluid">
+            <!-- 侧边切换 -->
+            <div class="am-fl tpl-header-switch-button am-icon-list">
+                    <span>
+
+                </span>
+            </div>
+            <!-- 其它功能-->
+            <div class="am-fr tpl-header-navbar">
+                <ul>
+                    <!-- 欢迎语 -->
+                    <li class="am-text-sm tpl-header-navbar-welcome">
+                        <a href="javascript:;">欢迎你, <b id="xixi" th:text="${application.users.account}"></b> </a>
+                    </li>
+
+                    <!-- 新邮件 -->
+                    <li class="am-dropdown tpl-dropdown" data-am-dropdown>
+                        <a href="javascript:;" class="am-dropdown-toggle tpl-dropdown-toggle" data-am-dropdown-toggle>
+                            <i class="am-icon-envelope" onclick="qdym()">签到</i>
+                        </a>
+                    </li>
+                    <!-- 退出 -->
+                    <li class="am-text-sm">
+                        <a href="#" onclick="exit()">
+                            <span class="am-icon-sign-out"></span> 退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </header>
+    <!-- 风格切换 -->
+    <div class="tpl-skiner">
+        <div class="tpl-skiner-toggle am-icon-cog">
+        </div>
+        <div class="tpl-skiner-content">
+            <div class="tpl-skiner-content-title">
+                选择主题
+            </div>
+            <div class="tpl-skiner-content-bar">
+                <span class="skiner-color skiner-white" data-color="theme-white"></span>
+                <span class="skiner-color skiner-black" data-color="theme-black"></span>
+            </div>
+        </div>
+    </div>
+    <!-- 侧边导航栏 -->
+    <div class="left-sidebar">
+        <!-- 用户信息 -->
+        <div class="tpl-sidebar-user-panel">
+            <div class="tpl-user-panel-slide-toggleable">
+                <div class="tpl-user-panel-profile-picture">
+                    <img src="/img/user04.png" alt="">
+                </div>
+                <span class="user-panel-logged-in-text">
+          </span>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-link" style="margin-left: -20px">
+                        <a href="javascript:;" class="sidebar-nav-sub-title">
+                            <i class="am-icon-table sidebar-nav-link-logo" style="margin-right: -3px"></i>个人中心
+                            <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                        </a>
+                        <ul class="sidebar-nav sidebar-nav-sub">
+                            <li class="sidebar-nav-link">
+                                <a href="form.html">
+                                    <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 查看信息
+                                </a>
+                            </li>
+
+                            <li class="sidebar-nav-link">
+                                <a href="formT.html">
+                                    <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 修改密码
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 菜单 -->
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-heading">Components <span class="sidebar-nav-heading-info"> 附加组件</span></li>
+            <li class="sidebar-nav-link">
+                <a href="index.html">
+                    <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
+                </a>
+            </li>
+            <li class="sidebar-nav-link">
+                <a href="table-list.html">
+                    <i class="am-icon-table sidebar-nav-link-logo"></i> 试卷
+                </a>
+            </li>
+            <li class="sidebar-nav-link">
+                <a href="table-list-video.html">
+                    <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 视频
+                </a>
+            </li>
+
+            <li class="sidebar-nav-link">
+                <a href="test.html">
+                    <i class="am-icon-wpforms sidebar-nav-link-logo"></i> 考试
+                </a>
+            </li>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="tpl-content-wrapper">
+
+        <div class="row-content am-cf">
+            <div class="widget am-cf">
+                <div class="main">
+                    <!--nr start-->
+                    <div class="test_main">
+                        <div class="nr_left">
+                            <div class="test">
+                                <form action="" method="post">
+                                    <div class="test_title">
+                                        <p class="test_time">
+                                            <i class="icon iconfont">&#xe6fb;</i><b class="alt-1">0:20</b>
+                                        </p>
+                                        <input type="button" name="test_jiaojuan" onclick="toSubmit()" value="交卷">
+                                        <input type="text" style="display:none;" id="userId" th:value="${application.users.user_id}">
+                                    </div>
+
+                                    <div class="test_content">
+                                        <div class="test_content_title">
+                                            <h2>单选题</h2>
+                                            <p>
+                                                <span>共</span><i
+                                                    class="content_lit">20</i><span>题，</span><span>合计</span><i
+                                                    class="content_fs">100</i><span>分</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="test_content_nr">
+                                        <ul id="start-test-list">
+
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        <div class="nr_right">
+                            <div class="nr_rt_main">
+                                <div class="rt_nr1">
+                                    <div class="rt_nr1_title">
+                                        <h1>
+                                            答题卡
+                                        </h1>
+                                        <p class="test_time">
+                                            <i class="icon iconfont">&#xe6fb;</i><b class="alt-1">0:20</b>
+                                        </p>
+                                    </div>
+                                    <div class="rt_content">
+                                        <div class="rt_content_tt">
+                                            <h2>单选题&nbsp;<span>共</span><i class="content_lit">100</i><span>题</span></h2>
+                                        </div>
+                                        <div class="rt_content_nr answerSheet">
+                                            <ul id="for_options">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--nr end-->
+                    <div class="foot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="http://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="/js/amazeui.datatables.min.js"></script>
+<script src="/js/dataTables.responsive.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery.easy-pie-chart.js"></script>
+<!--时间js-->
+<script src="/js/jquery.countdown.js"></script>
+<script>
+    window.jQuery(function ($) {
+        "use strict";
+
+        $('time').countDown({
+            with_separators: false
+        });
+        $('.alt-1').countDown({
+            css_class: 'countdown-alt-1'
+        });
+        $('.alt-2').countDown({
+            css_class: 'countdown-alt-2'
+        });
+
+
+    });
+
+    $(function () {
+        testInfo();
+    });
+
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    //试题信息
+    function testInfo() {
+        $.ajax({
+            "url": "/doTest",
+            "type": "get",
+            "data": "testpaper_id=" + getQueryString("testpaper_step_id"),
+            "dataTYpe": "json",
+            "success": function (result) {
+                var html = '';
+                var count = 0;
+                for (var i = 0; i < result.length; i++) {
+                    count++;
+                    html += "<li id=\"qu_0_" + i + "\">\n" +
+                        "                     <div class=\"test_content_nr_tt\">\n" +
+                        "                         <i>" + (i + 1) + "</i><span></span><font>" + result[i].a_name + "(5分)（\n" +
+                        "                         ）</font><b\n" +
+                        "                             class=\"icon iconfont\">&#xe881;</b>\n" +
+                        "                     </div>\n" +
+                        "\n" +
+                        "                     <div class=\"test_content_nr_main\">\n" +
+                        "                         <ul id='insert-options_" + i + "'>\n" +
+                        "\n" +
+                        "                         </ul>\n" +
+                        "                     </div>\n" +
+                        "                 </li>";
+
+
+                    $("#start-test-list").html(html);
+                    option(result[i].a_id, i, result[i].a_option_num);
+                }
+                for_options(count);
+            }
+        })
+
+    }
+
+    //选项信息
+    function option(answer_id, i, a_option_num) {
+        $.ajax({
+            "url": "/doOptions",
+            "type": "get",
+            "data": "answer_id=" + answer_id,
+            "dataTYpe": "json",
+            "success": function (result) {
+                var html = '';
+
+                for (var j = 0; j < a_option_num; j++) {
+                    html += "<li class='option'>" +
+                        "<label for='0_answer" + (i + 1) + "__option_" + (j + 1) + "'><input type='radio' class='radioOrcheck' value='" + result[j].o_name + "' name='answer" + (i + 1) + "' id='0_answer_" + (i + 1) + "_option_" + (j + 1) + "'>" +
+                        "" + result[j].o_name + "." +
+                        "<p class='ue' style='display:inline'>" + result[j].o_countent + "</p></label>" +
+                        "</li>";
+
+                    $("#insert-options_" + i).html(html);
+                }
+            }
+        })
+    }
+
+    //右边跳转选项
+    function for_options(count) {
+        $(".content_lit").html(count);
+
+        var html = '';
+        for (var x = 0; x < count; x++) {
+            html += "<li><a href=\"#qu_0_" + x + "\">" + (x + 1) + "</a></li>";
+
+            $("#for_options").html(html);
+        }
+    }
+
+
+    //查找错题
+    function findBadanswer(i, key) {
+        var num = 0;
+        $.ajax({
+            "url": "/findT",
+            "type": "get",
+            "data": "a_id=" + i + "&key=" + key,
+            "dataType": "json",
+            async: false,
+            "success": function (result) {
+                num = result;
+            }
+        });
+        return num;
+    }
+
+    //点击变颜色
+
+
+    //考试提交
+    function toSubmit() {
+        var num = $(".content_lit").html();
+        var count = 0;
+        var wrongT = 0;//错误题
+        var trueT = 0;//正确题
+
+        var key = '';//选项
+        var find = 0;//查找错题返回值
+        for (var i = 0; i < num; i++) {
+            count+=1;
+            key = $(".test_content_nr>ul>li").eq(i).find(".test_content_nr_main>ul li input:radio:checked").val();
+            //判断选项对错
+            if (key != null) {
+                find = findBadanswer((i + 1), key);
+                if (find == 1) {
+                    trueT++;
+                } else {
+                    wrongT++;
+                    //添加错题
+                    var user_id = $("#userId").val();
+                    var answer_id = i+1;
+                    $.ajax({
+                        "url": "/video/addCuoTi",
+                        "data": "answer_id="+answer_id+"&user_id="+user_id+"&bad_option="+key,
+                        "type": "post",
+                        "dataType": "JSON",
+                        "success":function(result){
+                            if (result>0){
+                                alert("错题已提交！");
+                                break;
+                            }else {
+                                alert("错题提交失败！");
+                                break;
+                            }
+                        }
+                    });
+                }
+            } else {
+                count = count-1;
+                break;
+            }
+        }
+        if (count == num) {
+            var scoer = (100 / num) * trueT;//分数
+            var p = (trueT / num);//正确率
+            var user_id = $("#userId").val();
+            var testpaper_step_id =  getQueryString("testpaper_step_id");
+            //添加试卷
+            $.ajax({
+                "url": "/video/addTest",
+                "data": "testpaper_step_id="+testpaper_step_id+"&t_grade="+scoer+"&t_correctness="+p+"&user_id="+user_id,
+                "type": "post",
+                "dataType": "JSON",
+                "success":function(result){
+                    if (result>0){
+                        alert("交卷成功！");
+                        alert("您本次考试成绩为："+scoer+"分，请继续加油哦!");
+                        location.href="test.html";
+                    }else {
+                        alert("交卷失败！");
+                    }
+                }
+            });
+        } else {
+            alert("您有未选择的题，请检查！");
+        }
+    }
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:命名空间,做sql隔离,每一个Sql映射文件都属于一个dao接口-->
+<mapper namespace="com.example.demo.mapper.UserDao">
+
+  <!--<resultMap type="User" id="UserList">
+        <id property="user_id" column="user_id"/>
+        <result property="userName" column="userName"/>
+        <result property="account" column="account"/>
+        <result property="passwoerd" column="passwoerd"/>
+        <result property="sex" column="sex"/>
+        <result property="deptID" column="deptID"/>
+        <result property="points" column="points"/>
+    </resultMap>-->
+
+    <select id="Login" parameterType="String" resultType="Integer">
+		SELECT COUNT(1) FROM  `user` WHERE `account`=#{account} AND `password`=#{password}
+	</select>
+    <select id="getMessage" resultType="com.example.demo.pojo.User">
+		SELECT *  FROM  `user` WHERE `account`=#{0}
+	</select>
+	<update id="xiugai" parameterType="com.example.demo.pojo.User">
+		update user set password=#{password} where user_id=#{user_id}
+	</update>
+    <select id="register" parameterType="com.example.demo.pojo.User" resultType="Integer">
+		INSERT INTO `user` ( `userName`, `account`, `password`, `sex` ) VALUES (#{userName},#{account},#{password},#{sex} ) ;
+	</select>
+	<update id="xiugai1">
+		update user set userName=#{userName} where user_id=#{id}
+	</update>
+</mapper>

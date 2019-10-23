@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:命名空间,做sql隔离,每一个Sql映射文件都属于一个dao接口-->
+<mapper namespace="com.example.demo.mapper.User_sign_logMapper">
+
+    <insert id="addtt" parameterType="com.example.demo.pojo.User_sign_log">
+        insert into user_sign_log value(null,#{create_time},#{sign_status},#{update_time},#{user_sign_id})
+    </insert>
+    <select id="selmaxDate"  resultType="String">
+        select create_time from user_sign_log where user_sign_id=#{0} ORDER BY  create_time DESC  LIMIT 0,1
+    </select>
+    <select id="selall"  resultType="com.example.demo.pojo.User_sign_log">
+        select * from user_sign_log where user_sign_id=#{0}
+    </select>
+    <select id="sfqd"  resultType="String">
+        select sign_status from user_sign_log where id=#{0}
+    </select>
+    <update id="qd" >
+        <![CDATA[  update user_sign_log set sign_status=1 where create_time= CURDATE() and  user_sign_id=#{0}]]>
+    </update>
+    <select id="sfqd1"  resultType="Integer">
+           <![CDATA[select count(*) from user_sign_log where create_time= CURDATE() AND user_sign_id=#{0} and sign_status=1 ]]>
+    </select>
+    <select id="lx"  resultType="Integer">
+        <![CDATA[select count(*) from user_sign_log where create_time=#{date} and sign_status=1 AND user_sign_id=#{user_sign_id} ]]>
+    </select>
+    <select id="sfqq"  resultType="Integer">
+        <![CDATA[select count(*) from user_sign_log where create_time= CURDATE() and  user_sign_id=#{0} and sign_status=1 ]]>
+    </select>
+</mapper>

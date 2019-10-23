@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:命名空间,做sql隔离,每一个Sql映射文件都属于一个dao接口-->
+<mapper namespace="com.example.demo.mapper.BadanswerMapper">
+
+    <resultMap type="com.example.demo.pojo.Badanswer" id="Badanswer">
+        <id property="bad_id" column="bad_id"/>
+        <result property="answer_id" column="answer_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="bad_option" column="bad_option"/>
+        <collection property="answer" ofType="com.example.demo.pojo.Answer">
+            <id property="a_id" column="a_id"/>
+            <result property="a_name" column="a_name"/>
+            <result property="testpaped_id" column="testpaped_id"/>
+            <result property="key" column="key"/>
+            <result property="resolv" column="resolv"/>
+        </collection>
+    </resultMap>
+
+    <select id="getBadanswer" resultMap="Badanswer">
+		SELECT a.*,b.`bad_option` from `answer` AS a,`bad_answer` AS b where a.`a_id`=b.`answer_id` and b.`bad_option`!=a.`key` and b.`user_id`=#{user_id} AND a.`testpaper_id`=#{t_id}
+	</select>
+
+
+    <insert id="addCuoTi" parameterType="com.example.demo.pojo.Badanswer">
+        INSERT INTO bad_answer VALUES(NULL,#{answer_id},#{user_id},#{bad_option})
+    </insert>
+
+</mapper>
